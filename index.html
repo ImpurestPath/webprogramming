@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <style>
+      .favorites {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+
+          
+      }
+      .hereWeather {
+          background-color: aliceblue;
+      }
+      /* добавить вложенность */
+      .temperature {
+            font-size: xx-large; 
+        }
+    </style>
+  </head>
+  <body>
+    <h1>Погода здесь</h1>
+    <div class="hereWeather">
+        <p>Saint-Petersburg</p>
+        <img src="rainy-outline.svg" height="80px" width="80px">
+        <p class="temperature">8 &#176C</p>
+    </div>
+    <div class="favoritesHeader">
+        <p>Избранное</p>
+        <input placeholder="Добавить город">
+        <button>+</button>
+    </div>
+    <div class="favorites">
+        <div>
+            <p>Moscow</p>
+            <p>5 &#176C</p>
+            <img src="rainy-outline.svg" height="30px" width="30px">
+            <button>+</button> 
+            <!-- Подставить rotate -->
+            <ul>
+                <li>Ветер</li>
+                <li>Облачность</li>
+                <li>Давление</li>
+                <li>Влажность</li>
+                <li>Координаты</li>
+            </ul>
+        </div>
+        <div>
+            <p>Moscow2</p>
+            <p>5 &#176C</p>
+            <img src="rainy-outline.svg" height="30px" width="30px">
+            <button>+</button> 
+            <!-- Подставить rotate -->
+            <ul>
+                <li>Ветер</li>
+                <li>Облачность</li>
+                <li>Давление</li>
+                <li>Влажность</li>
+                <li>Координаты</li>
+            </ul>
+        </div>
+    </div>
+  </body>
+</html>
