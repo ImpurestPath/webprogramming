@@ -1,20 +1,11 @@
 * {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin: 0;
     padding-left: 1rem;
     padding-right: 1rem;
     outline: none;
 }
-html {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-body{
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-}
+
 h1,h2 {
     font-size: 2rem;
     font-weight: lighter;
