@@ -1,0 +1,62 @@
+.headerc {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: aqua;
+}
+.headerc button {
+    align-self: center;
+    justify-self: center;
+}
+.favorites {
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: row; */
+    justify-content: space-between;
+}
+
+.favoritesHeader {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.hereWeather {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.weatherList li {
+    list-style-type: none;
+    margin: 3px;
+    color: #ffffff;
+    background-color: #b6c0c7;
+    padding: 10px 10px 10px 10px;
+    vertical-align: center;
+    text-align: right;
+}
+
+.weatherList b{
+    font-weight: bold;
+    float: left;
+    margin-right: 30px;
+}
+
+.temperature {
+    font-size: xx-large; 
+}
+
+.city {
+    list-style-type: none;
+}
+.city > * {
+    display: inline;
+    margin-right: 10px;
+    vertical-align: center;
+    text-align: center;
+}
+.city button {
+    float: right;
+}

@@ -1,65 +1,71 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    
-    <style>
-      .favorites {
-          display: flex;
-          flex-wrap: wrap;
-          flex-direction: row;
 
-          
-      }
-      .hereWeather {
-          background-color: aliceblue;
-      }
-      /* добавить вложенность */
-      .temperature {
-            font-size: xx-large; 
-        }
-    </style>
-  </head>
-  <body>
-    <h1>Погода здесь</h1>
-    <div class="hereWeather">
-        <p>Saint-Petersburg</p>
-        <img src="rainy-outline.svg" height="80px" width="80px">
-        <p class="temperature">8 &#176C</p>
-    </div>
-    <div class="favoritesHeader">
-        <p>Избранное</p>
-        <input placeholder="Добавить город">
-        <button>+</button>
-    </div>
-    <div class="favorites">
-        <div>
-            <p>Moscow</p>
-            <p>5 &#176C</p>
-            <img src="rainy-outline.svg" height="30px" width="30px">
-            <button>+</button> 
-            <!-- Подставить rotate -->
-            <ul>
-                <li>Ветер</li>
-                <li>Облачность</li>
-                <li>Давление</li>
-                <li>Влажность</li>
-                <li>Координаты</li>
+<head>
+    <link rel="stylesheet" href="./styles.css" type="text/css">
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <div class='headerc'>
+            <h1>Погода здесь</h1>
+            <button id="headerbutton">Обновить</button>
+        </div>
+        <div class="hereWeather">
+            <div>
+                <h2>Saint-Petersburg</h2>
+                <img src="rainy-outline.svg" height="80px" width="80px">
+                <span class="temperature">8 &#176C</span>
+            </div>
+            <ul class="weatherList">
+                <li><b>Ветер</b> Moderate breeze, 6.0 m/s, North-northwest</li>
+                <li><b>Облачность</b> Broken clouds</li>
+                <li><b>Давление</b> 1013 hpa</li>
+                <li><b>Влажность</b> 52%</li>
+                <li><b>Координаты</b> [59.88, 30.42]</li>
             </ul>
         </div>
-        <div>
-            <p>Moscow2</p>
-            <p>5 &#176C</p>
-            <img src="rainy-outline.svg" height="30px" width="30px">
-            <button>+</button> 
-            <!-- Подставить rotate -->
-            <ul>
-                <li>Ветер</li>
-                <li>Облачность</li>
-                <li>Давление</li>
-                <li>Влажность</li>
-                <li>Координаты</li>
-            </ul>
+        <div class="favoritesHeader">
+            <h2>Избранное</h2>
+            <div>
+                <input placeholder="Добавить город">
+                <button>+</button>
+            </div>
         </div>
-    </div>
-  </body>
+        <ul class="favorites">
+            <li class="city">
+                <h3>Moscow</h3>
+                <p>5 &#176C</p>
+                <img src="rainy-outline.svg" height="30px" width="30px">
+                <button>+</button>
+                <!-- Подставить rotate -->
+                <ul class="weatherList">
+                    <li><b>Ветер</b> Moderate breeze, 6.0 m/s, North-northwest</li>
+                    <li><b>Облачность</b> Broken clouds</li>
+                    <li><b>Давление</b> 1013 hpa</li>
+                    <li><b>Влажность</b> 52%</li>
+                    <li><b>Координаты</b> [59.88, 30.42]</li>
+                </ul>
+            </li>
+            <li class="city">
+
+                <h3>Moscow2</h3>
+                <p>5 &#176C</p>
+                <img src="rainy-outline.svg" height="30px" width="30px">
+                <button>+</button>
+                <!-- Подставить rotate -->
+                <ul class="weatherList">
+                    <li><b>Ветер</b> Moderate breeze, 6.0 m/s, North-northwest</li>
+                    <li><b>Облачность</b> Broken clouds</li>
+                    <li><b>Давление</b> 1013 hpa</li>
+                    <li><b>Влажность</b> 52%</li>
+                    <li><b>Координаты</b> [59.88, 30.42]</li>
+                </ul>
+            </li>
+        </ul>
+    </main>
+    <footer></footer>
+</body>
+
 </html>
