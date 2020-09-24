@@ -1,5 +1,5 @@
 * {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin: 0;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -21,13 +21,9 @@ h1,h2 {
 }
 
 .headerc {
-    /* width: 100%; */
     display: flex;
     flex-direction: row;
-    justify-items: flex-start;
     justify-content: space-between;
-    align-items: flex-start;
-    background-color: aqua;
 
 }
 .headerc > div {
@@ -69,7 +65,7 @@ h1,h2 {
     justify-content: space-between;
 }
 .hereWeather > div {
-    width: 30rem;
+    width: 35rem;
 }
 .hereWeather h3 {
     padding-left: 0rem;
@@ -89,7 +85,7 @@ h1,h2 {
 }
 
 .weatherList {
-    width: 30rem;
+    width: 35rem;
     font-size: 0.8rem;
 }
 .weatherList li {
@@ -100,7 +96,6 @@ h1,h2 {
     padding: 1rem;
     vertical-align: center;
     text-align: right;
-    font-size: 1rem;
 
 }
 
@@ -108,14 +103,14 @@ h1,h2 {
     font-weight: bold;
     float: left;
     margin-right: 2rem;
-    font-size: 1rem;
+
 }
 
 
 .city {
-    padding-top: 10px;
+    padding-top: 1rem;
     list-style-type: none;
-    width: 30rem;
+    width: 35rem;
 }
 .city > * {
     display: inline;
@@ -148,3 +143,48 @@ h1,h2 {
     height: 2rem;
     width: 2rem;
 }
+#headerbutton {
+    padding: 0;
+    background-color: #d6e1e7;
+    color: #7c969b;
+    border: none;
+    border-radius: 10px;
+    width: 200px;
+    height: 50px;
+    text-decoration: none;
+    position: relative;
+}
+#headerbutton img{
+    display: none;
+}
+
+
+@media only screen and (max-width: 1850px) {
+    .body {
+        background-color: khaki;
+    }
+    .favorites{
+        display: flex;
+        justify-content: space-around;
+    }
+    .hereWeather {
+        display: flex;
+        justify-content: space-around;
+    }
+    #headerbutton img{
+        padding: 0rem;
+
+        display: block;
+        width: 3rem;
+        height: 3rem;
+    }
+    #headerbutton span{
+        display: none;
+    }
+    #headerbutton {
+        
+        display: inline-block;
+        width: 3rem;
+        height: 3rem;
+    }
+  }
