@@ -5,7 +5,14 @@
     outline: none;
 }
  html {
-    font-size: 20px;
+    font-size: 22px;
+    width: 100%;
+    padding-left: 0rem;
+    padding-right: 0rem;
+ }
+ main {
+     padding-left: 0rem;
+     padding-right: 0rem;
  }
 
 h1,h2 {
@@ -13,45 +20,17 @@ h1,h2 {
     font-weight: lighter;
 }
 
-.headerc {
+header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
+    padding-top: 1rem;
 }
-.headerc > div {
+header > div {
     width: 0%;
 }
 
-.favorites {
-    display: flex;
-    flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    /* flex-direction: row; */
-    justify-content: space-between;
-    
-}
 
-.favoritesHeader {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-right: 2rem;
-}
-.favoritesHeader input {
-    width: 15rem;
-}
-
-.favoritesHeader button {
-    padding: 0;
-    height: 2rem;
-    width: 2rem;
-    border-radius: 50%;
-    background-color: #5a646b;
-    color: #ffffff;
-    border-color: #5a646b;
-    font-size: 1.5rem;
-}
 .hereWeather {
     display: flex;
     flex-wrap: wrap;
@@ -72,9 +51,9 @@ h1,h2 {
 .hereWeather img{
     height: 6rem;
     width: 6rem;
-    padding: 2rem;
+    padding-top: 2rem;
     padding-left: 0rem;
-    padding-right: 6rem;
+    /* padding-right: 6rem; */
 }
 
 .weatherList {
@@ -99,6 +78,38 @@ h1,h2 {
 
 }
 
+
+.favoritesHeader {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-right: 2rem;
+}
+.favoritesHeader input {
+    width: 15rem;
+    height: 1.75rem;
+}
+
+.favoritesHeader button {
+    padding: 0;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background-color: #5a646b;
+    color: #ffffff;
+    border-color: #5a646b;
+    font-size: 1.5rem;
+}
+
+.favorites {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    /* flex-direction: row; */
+    justify-content: space-between;
+    
+}
 
 .city {
     padding-top: 1rem;
@@ -154,7 +165,7 @@ h1,h2 {
 
 @media only screen and (max-width: 1600px) {
     html {
-        font-size: 16px;
+        font-size: 12px;
     }
     .body {
         background-color: khaki;
@@ -163,6 +174,7 @@ h1,h2 {
         display: flex;
         justify-content: space-around;
     }
+
     .hereWeather {
         display: flex;
         justify-content: space-around;
@@ -182,5 +194,11 @@ h1,h2 {
         display: inline-block;
         width: 3rem;
         height: 3rem;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    html {
+        font-size: 10px;
     }
   }
