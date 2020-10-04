@@ -5,7 +5,8 @@
     outline: none;
 }
  html {
-    font-size: 12px;
+    /* font-size: 12px; */
+    font-size: 1vw;
     width: 100%;
     padding-left: 0rem;
     padding-right: 0rem;
@@ -112,6 +113,7 @@ header > div {
 .favoritesHeader input {
     width: 15rem;
     height: 1.75rem;
+    font-size: 1.75rem;
 }
 
 .favoritesHeader button {
@@ -190,10 +192,15 @@ header > div {
     display: none;
 }
 
+@media only screen and (min-width: 2000px ) {
+    html {
+        font-size: 18px;
+    }
+}
 
 @media only screen and (max-width: 750px) {
     html {
-        font-size: 12px;
+        font-size: 1.8vw;
     }
     
     header {
@@ -227,9 +234,14 @@ header > div {
         width: 45rem;
         padding: 0rem;
     }
+
+    .favoritesHeader button {
+        float: right;
+        margin-right: 1rem;
+    }
+
     .favoritesHeader input {
         width: 39rem;
-        /* margin-right: 0.5rem; */
     }
     /* .favoritesHeader > h2{
         padding-left: 0rem;
@@ -255,8 +267,8 @@ header > div {
         height: 3rem;
     }
   }
-
-  @media only screen and (max-width: 640px) {
+  
+  /* @media only screen and (max-width: 640px) {
     html {
         font-size: 11.5px;
     }
@@ -277,4 +289,4 @@ header > div {
     html {
         font-size: 6px;
     }
-  }
+  } */
