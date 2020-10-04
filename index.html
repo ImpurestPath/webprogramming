@@ -19,8 +19,8 @@
         <div class="hereWeather">
             <div>
                 <h2>Saint-Petersburg</h2>
-                    <img src="img/rainy-outline.svg">
-                    <span class="temperature">8&#176C</span>
+                <img src="img/rainy-outline.svg">
+                <span class="temperature">8&#176C</span>
             </div>
             <ul class="weatherList">
                 <li><b>Ветер</b> Moderate breeze, 6.0 m/s</li>
@@ -110,6 +110,21 @@
         </ul>
     </main>
     <footer></footer>
+    <script>
+        function load() {
+            return fetch("http://api.weatherapi.com/v1/current.json?key=a67d292870584105b00141824200410&q=Yakutsk").then(response => { return response.json() })
+        }
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {console.log(position)});
+            } else {
+                // x.innerHTML = "Geolocation is not supported by this browser.";
+                alert("No location")
+            }
+        }
+        getLocation()
+        // load().then(r => { console.log(r) });
+    </script>
 </body>
 
 </html>
