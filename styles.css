@@ -5,7 +5,7 @@
     outline: none;
 }
  html {
-    font-size: 16px;
+    font-size: 12px;
     width: 100%;
     padding-left: 0rem;
     padding-right: 0rem;
@@ -25,7 +25,14 @@ header {
     flex-direction: row;
     justify-content: space-between;
     padding-top: 1rem;
+    padding-left: 0rem;
+    
 }
+
+header > h1 {
+    font-size: 4rem;
+}
+
 header > div {
     width: 0%;
 }
@@ -37,15 +44,18 @@ header > div {
     justify-content: space-between;
 }
 .hereWeather > div {
-    width: 35rem;
+    width: 45rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
 }
 .hereWeather h2 {
     padding-left: 0rem;
-    font-size: 3rem;
+    font-size: 4rem;
+    font-weight: bold;
 }
 .hereWeather span{
     white-space: nowrap;
-    font-size: 7rem;
+    font-size: 8rem;
     vertical-align: top;
 }
 .hereWeather img{
@@ -57,8 +67,8 @@ header > div {
 }
 
 .weatherList {
-    width: 35rem;
-    font-size: 1.2rem;
+    width: 45rem;
+    font-size: 2rem;
     padding-left: 0rem;
     padding-right: 0rem;
     
@@ -90,9 +100,15 @@ header > div {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding-right: 2rem;
+    padding-right: 1rem;
     padding-left: 0rem;
+    padding-top: 2rem;
 }
+
+.favoritesHeader h2 {
+    font-size: 3rem;
+}
+
 .favoritesHeader input {
     width: 15rem;
     height: 1.75rem;
@@ -123,7 +139,7 @@ header > div {
     padding-left: 0rem;
     padding-right: 0rem;
     list-style-type: none;
-    width: 35rem;
+    width: 45rem;
 }
 .city > * {
     display: inline;
@@ -175,15 +191,16 @@ header > div {
 }
 
 
-@media only screen and (max-width: 812px) {
+@media only screen and (max-width: 750px) {
     html {
         font-size: 12px;
     }
     
     header {
         margin:0px auto;
-        width: 35rem;
+        width: 45rem;
         padding: 0rem;
+        padding-top: 1rem;
     }
     header > *{
         
@@ -207,12 +224,12 @@ header > div {
         padding-right: 0rem;
     }
     .favoritesHeader > * {
-        width: 35rem;
+        width: 45rem;
         padding: 0rem;
     }
     .favoritesHeader input {
-        width: 29rem;
-        margin-right: 0.5rem;
+        width: 39rem;
+        /* margin-right: 0.5rem; */
     }
     /* .favoritesHeader > h2{
         padding-left: 0rem;
@@ -224,7 +241,6 @@ header > div {
     }
     #headerbutton img{
         padding: 0rem;
-
         display: block;
         width: 3rem;
         height: 3rem;
@@ -233,7 +249,7 @@ header > div {
         display: none;
     }
     #headerbutton {
-        
+        margin-top: 1rem;
         display: inline-block;
         width: 3rem;
         height: 3rem;
@@ -243,5 +259,22 @@ header > div {
   @media only screen and (max-width: 640px) {
     html {
         font-size: 11.5px;
+    }
+  }
+
+  @media only screen and (max-width: 560px) {
+    html {
+        font-size: 10px;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    html {
+        font-size: 8px;
+    }
+  }
+  @media only screen and (max-width: 400px) {
+    html {
+        font-size: 6px;
     }
   }
