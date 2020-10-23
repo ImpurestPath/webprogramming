@@ -80,18 +80,6 @@ header > h1 {
     padding-right: 2rem;
 }
 
-/* .loading{
-    content: url("img/anim.svg");
-    text-align: center;
-    height: 99%;
-    width: 100%;
-    background: rgb(0,0,0,0.2);
-    position: absolute;
-    opacity: 1;
-    left: 0;
-    top: 0;
-    border-radius: 1rem; 
- } */
 
 .weatherList {
     width: 45rem;
@@ -111,7 +99,7 @@ header > h1 {
     margin-right: 0rem;
     vertical-align: center;
     text-align: right;
-    font-size: inherit;
+    font-size: 2rem;
 }
 
 .weatherList b{
