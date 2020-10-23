@@ -142,7 +142,7 @@
             if (cityResponse) {
                 nameEl.textContent = cityResponse.location.name
                 tempEl.textContent = cityResponse.current.temp_c + "°C"
-                imgEl.src = "http:" + cityResponse.current.condition.icon
+                imgEl.src = "https:" + cityResponse.current.condition.icon
                 fillUl(ulEl,
                     cityResponse.current.wind_dir + ", " + cityResponse.current.wind_kph + " km/h",
                     cityResponse.current.cloud + "%",
@@ -218,7 +218,7 @@
         }
 
         function load(query) {
-            return fetch("http://api.weatherapi.com/v1/current.json?key=a67d292870584105b00141824200410&q=" + query)
+            return fetch("https://api.weatherapi.com/v1/current.json?key=a67d292870584105b00141824200410&q=" + query)
         }
         function getLocationResponse() {
             return new Promise((resolve, reject) => {
@@ -246,7 +246,7 @@
                 ulEl = mainDivEl.querySelector("ul")
             if (cityResponse) {
                 nameEl.textContent = cityResponse.location.name
-                imgEl.src = "http:" + cityResponse.current.condition.icon
+                imgEl.src = "https:" + cityResponse.current.condition.icon
                 spanEl.textContent = cityResponse.current.temp_c + "°C"
                 fillUl(ulEl,
                     cityResponse.current.wind_dir + ", " + cityResponse.current.wind_kph + " km/h",
