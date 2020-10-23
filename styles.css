@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding-left: 1rem;
@@ -16,28 +17,38 @@
      padding-right: 0rem;
  }
 
-h1,h2 {
-    font-size: 2rem;
-    font-weight: lighter;
-}
+
 
 header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-top: 1rem;
-    padding-left: 0rem;
+    padding-top: 1rem; 
+    padding-left: 0rem; 
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    
     
 }
 
 header > h1 {
     font-size: 4rem;
+    font-weight: lighter;
 }
 
-header > div {
-    width: 0%;
-}
 
+#headerbutton {
+
+    background-color: #d6e1e7;
+    color: #7c969b;
+    border: none;
+    border-radius: 1rem;
+    width: 16rem;
+    height: 4rem;
+    margin: auto;
+    font-size: 2rem;
+
+}
+#headerbutton img{
+    display: none;
+}
 
 .hereWeather {
     display: flex;
@@ -57,15 +68,16 @@ header > div {
 }
 .hereWeather > div > span{
     white-space: nowrap;
-    font-size: 8rem;
+    font-size: 14rem;
     vertical-align: top;
+    float: right;
 }
 .hereWeather img{
-    height: 8rem;
-    width: 8rem;
-    padding-top: 2rem;
+    height: 12rem;
+    width: 12rem;
+    padding-top: 3rem;
     padding-left: 0rem;
-    /* padding-right: 6rem; */
+    padding-right: 2rem;
 }
 
 /* .loading{
@@ -145,7 +157,6 @@ header > div {
     display: flex;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    /* flex-direction: row; */
     justify-content: space-between;
     
 }
@@ -241,6 +252,7 @@ header > div {
         width: 45rem;
         padding: 0rem;
         padding-top: 1rem;
+        grid-template-columns: 1fr 1fr;
     }
     header > *{
         
