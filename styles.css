@@ -55,20 +55,20 @@ header > div {
     font-size: 4rem;
     font-weight: bold;
 }
-.hereWeather span{
+.hereWeather > div > span{
     white-space: nowrap;
     font-size: 8rem;
     vertical-align: top;
 }
 .hereWeather img{
-    height: 6rem;
-    width: 6rem;
+    height: 8rem;
+    width: 8rem;
     padding-top: 2rem;
     padding-left: 0rem;
     /* padding-right: 6rem; */
 }
 
-.hereWeather::before{
+/* .loading{
     content: url("img/anim.svg");
     text-align: center;
     height: 99%;
@@ -78,10 +78,8 @@ header > div {
     opacity: 1;
     left: 0;
     top: 0;
-    border-radius: 1rem;
-    
-    display: none;
-}
+    border-radius: 1rem; 
+ } */
 
 .weatherList {
     width: 45rem;
@@ -171,7 +169,6 @@ header > div {
 }
 .city h3 {
     font-size: 2rem;
-    /* padding-left: 2rem; */
     padding-left: 0rem;
 }
 .city button {
@@ -188,7 +185,7 @@ header > div {
     color: #ffffff;
     border-color: #5a646b;
 }
-.city span {
+.city > span {
     font-size: 2.5rem;
 }
 .city img {
@@ -196,19 +193,23 @@ header > div {
     width: 2rem;
 }
 
-.city::before{
+.loading::before{
     content: url("img/anim.svg");
     text-align: center;
     height: 99%;
-    width: 100%;
-    background: rgb(0,0,0,0.25);
+    width: 106%;
+    background: rgb(0,0,0,0.15);
     position: absolute;
     opacity: 1;
-    left: 0;
+    left: -3%;
     top: 0;
     border-radius: 1rem;
-    display: none;
 }
+
+.loading {
+    position: relative;
+}
+
 #headerbutton {
     padding: 0;
     background-color: #d6e1e7;
