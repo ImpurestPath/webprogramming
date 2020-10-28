@@ -36,51 +36,79 @@ function createFromTemplate(cityName, cityResponse) {
 
 }
 
-function removeCity(elementId) {
+function detachCity(elementId) {
     const el = document.getElementById(elementId)
     if (el) {
         el.remove()
     }
+}
+
+function removeCity(elementId) {
+    detachCity(elementId)
     localStorage.removeItem(elementId)
 }
 
-function refreshFavoriteCity(cityName) {
+function refreshFavoriteCity(cityName, isOld = true) {
     const cityEl = document.getElementById(cityName)
     cityEl.classList.add("loading")
-    loadCity(cityName).then(response => {
-        if (response.ok) {
-            response.json().then(apiResponse => {
-                document.getElementsByClassName("favorites")[0].replaceChild(createFromTemplate(cityName, apiResponse), cityEl)
-            }).catch((err) => {
-                console.log(err);
-                alert("Error at getting json")
-            })
+    return new Promise((resolve, reject) => {
+        loadCity(cityName).then(response => {
+            if (response.ok) {
+                response.json().then(apiResponse => {
+                    console.log(apiResponse);
+                    const item = localStorage.getItem(apiResponse.location.name);
+                    document.getElementsByClassName("favorites")[0].replaceChild(createFromTemplate(apiResponse.location.name, apiResponse), cityEl);
+                    resolve(apiResponse.location.name);
+                }).catch((err) => {
+                    console.log(err);
+                    alert("Error at getting json");
+                    reject();
+                })
 
-        }
-        else {
-            alert("Cannot find city")
+            }
+            else {
+                alert("Cannot find city")
+                cityEl.classList.remove("loading")
+                reject();
+            }
+        }).catch(reason => {
+            alert("Problems with connection")
             cityEl.classList.remove("loading")
-        }
-    }).catch(reason => {
-        alert("Problems with connection")
-        cityEl.classList.remove("loading")
+            reject();
+        })
     })
+
 }
+
 
 function addFavoriteCity(cityName) {
     if (localStorage.hasOwnProperty(cityName)) {
         alert("Already added")
         return;
     }
-    appendCity(cityName)
-    localStorage.setItem(cityName, '')
+    appendCity(cityName).then(name => {
+        if (localStorage.hasOwnProperty(name)) {
+            alert("Already added")
+            detachCity(name);
+        } else {
+            localStorage.setItem(name, '')
+        }
+    }).catch((error) => {
+        if (error) {
+            alert(error);
+            removeCity(name);
+        }
+        removeCity(cityName);
+    })
+
 }
 
 function appendCity(cityName) {
     const cityEl = createFromTemplate(cityName, null)
     document.getElementsByClassName("favorites")[0].appendChild(cityEl)
-    refreshFavoriteCity(cityName)
+    return refreshFavoriteCity(cityName, false)
 }
+
 
 function loadCity(cityName) {
     return load(cityName)
@@ -178,9 +206,12 @@ function fullUpdate() {
 }
 
 
-document.getElementById("addFavoriteCity").addEventListener("click", event => {
-    addFavoriteCity(document.getElementById("cityName").value)
-
+document.getElementById("addFavoriteCityForm").addEventListener("submit", event => {
+    addFavoriteCity(event.target[0].value)
+    console.log(event.target[0].value);
+    console.log(event);
+    event.target.reset();
+    event.preventDefault();
 })
 document.getElementById("headerbutton").addEventListener("click", event => {
     fullUpdate()
