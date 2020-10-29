@@ -207,9 +207,11 @@ function fullUpdate() {
 
 
 document.getElementById("addFavoriteCityForm").addEventListener("submit", event => {
-    addFavoriteCity(event.target[0].value)
-    console.log(event.target[0].value);
-    console.log(event);
+    if (event.target[0].value || 0 != event.target[0].value.length) {
+        addFavoriteCity(event.target[0].value)
+        console.log(event.target[0].value);
+        console.log(event);
+    }
     event.target.reset();
     event.preventDefault();
 })
