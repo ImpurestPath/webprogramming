@@ -40,4 +40,4 @@ favoritesRouter.get('', function (req, res) {
 app.use('/weather', weatherRouter);
 app.use('/favorites', favoritesRouter);
 app.use(express.static(path.join(__dirname + '/frontend')));
-app.listen(80);
+app.listen(3000);
