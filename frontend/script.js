@@ -1,4 +1,6 @@
+
 const mainDoc = document.currentScript.ownerDocument;
+let cities = [];
 
 
 function createFromTemplate(cityName, cityResponse) {
@@ -45,7 +47,7 @@ function detachCity(elementId) {
 
 function removeCity(elementId) {
     detachCity(elementId)
-    localStorage.removeItem(elementId)
+    deleteCityFromDB(elementId)
 }
 
 function refreshFavoriteCity(cityName, isOld = true) {
@@ -56,7 +58,6 @@ function refreshFavoriteCity(cityName, isOld = true) {
             if (response.ok) {
                 response.json().then(apiResponse => {
                     console.log(apiResponse);
-                    const item = localStorage.getItem(apiResponse.location.name);
                     document.getElementsByClassName("favorites")[0].replaceChild(createFromTemplate(apiResponse.location.name, apiResponse), cityEl);
                     resolve(apiResponse.location.name);
                 }).catch((err) => {
@@ -82,25 +83,19 @@ function refreshFavoriteCity(cityName, isOld = true) {
 
 
 function addFavoriteCity(cityName) {
-    if (localStorage.hasOwnProperty(cityName)) {
-        alert("Already added")
-        return;
-    }
-    appendCity(cityName).then(name => {
-        if (localStorage.hasOwnProperty(name)) {
-            alert("Already added")
-            detachCity(name);
-        } else {
-            localStorage.setItem(name, '')
+    addCityToDB(cityName).then(async response => {
+        switch (response.status) {
+            case 200:
+                appendCity((await response.json()).name)
+                break;
+            case 208:
+                alert("Already added")
+                break;
+            default:
+                alert("Error at adding to db")
+                break;
         }
-    }).catch((error) => {
-        if (error) {
-            alert(error);
-            removeCity(name);
-        }
-        removeCity(cityName);
-    })
-
+    }).catch(err => {console.error(err); alert("Cannot add city")})
 }
 
 function appendCity(cityName) {
@@ -119,8 +114,43 @@ function loadLatLong(lat, long) {
 }
 
 function load(query) {
-    return fetch("https://api.weatherapi.com/v1/current.json?key=a67d292870584105b00141824200410&q=" + query)
+    return fetch("/weather/city?q=" + query)
 }
+
+function addCityToDB(city){
+    return fetch("/favorites?city=" + city, {
+        method: 'POST'
+    })
+}
+
+function loadAllCitiesFromDB(){
+    cities = []
+    fetch("/favorites").then( async response =>  {
+        console.log(response.status)
+        responseCities = await response.json()
+        console.log(responseCities);
+        cities = responseCities;
+        loadCitiesFromArray();
+    }).catch( err => {
+        console.error(err)
+        alert("Cannot load cities from database")
+    }
+    )
+}
+
+function loadCitiesFromArray() {
+    cleanFavorites()
+    for (let i = 0; i < cities.length; i++) {
+        appendCity(cities[i].city);
+    }
+}
+
+function deleteCityFromDB(city){
+    fetch("/favorites?city=" + city, {
+        method: 'DELETE'
+    })
+}
+
 function getLocationResponse() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -174,11 +204,6 @@ function fillUl(ulEl, wind, cloud, press, hum, coords) {
     coordsEl.textContent = coords
 }
 
-function loadCitiesFromStorage() {
-    for (let i = 0; i < localStorage.length; i++) {
-        appendCity(localStorage.key(i));
-    }
-}
 
 function fullUpdate() {
     document.getElementById("hereWeather").classList.add("loading")
@@ -201,10 +226,14 @@ function fullUpdate() {
         alert("Problems with connection")
         document.getElementById("hereWeather").classList.remove("loading")
     })
-    document.getElementsByClassName("favorites")[0].textContent = ''
-    loadCitiesFromStorage()
+    cleanFavorites()
+    // loadCitiesFromStorage()
+    loadAllCitiesFromDB()
 }
 
+function cleanFavorites(){
+    document.getElementsByClassName("favorites")[0].textContent = ''
+}
 
 document.getElementById("addFavoriteCityForm").addEventListener("submit", event => {
     if (event.target[0].value || 0 != event.target[0].value.length) {
