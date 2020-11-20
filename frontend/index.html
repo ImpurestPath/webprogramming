@@ -32,7 +32,8 @@
         <div class="favoritesHeader" id="addFavoriteCityForm">
             <h2>Избранное</h2>
             <form>
-                <input required  placeholder="Добавить город" id="cityName">
+                <input required  placeholder="Добавить город" id="cityName" title="Разрешено использовать только латинские названия"
+                pattern="^[a-zA-Z\s]+$">
                 <button type="submit" id="addFavoriteCity">+</button>
             </form>
         </div>

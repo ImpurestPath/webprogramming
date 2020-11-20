@@ -84,12 +84,16 @@ function refreshFavoriteCity(cityName, isOld = true) {
 
 function addFavoriteCity(cityName) {
     addCityToDB(cityName).then(async response => {
+        console.log("Adding city status: " + response.status)
         switch (response.status) {
             case 200:
                 appendCity((await response.json()).name)
                 break;
             case 208:
                 alert("Already added")
+                break;
+            case 404:
+                alert("Cannot find city")
                 break;
             default:
                 alert("Error at adding to db")

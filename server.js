@@ -23,12 +23,15 @@ favoritesRouter.get('', function (req, res) {
         const city = req.query.city;
         weather.load(city).then(async result => {
             resultJson = await result.json()
-            cityName = resultJson.location.name
-            if (cityName) {
+            if (result.ok && resultJson.location.name) {
+                cityName = resultJson.location.name
                 favorites.add(cityName).then(result => res.json({name: result})).catch(reject => {
                     console.log("Status " + reject.status);
                     res.sendStatus(reject.status)
                 });
+            } else {
+                console.log("Not found " + city)
+                res.sendStatus(404);
             }
         }).catch(err => {console.log(err); res.sendStatus(500)})
 

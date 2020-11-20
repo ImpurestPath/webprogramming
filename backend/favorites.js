@@ -7,7 +7,7 @@ module.exports = {
         return addCity(city);
     },
     deleteCity(city) {
-        return deleteC(city);
+        return deleteCity(city);
     }
 };
 
@@ -88,7 +88,7 @@ function getAllCity() {
     })
 }
 
-function deleteC(city) {
+function deleteCity(city) {
     return new Promise((resolve, reject) => {
         let db = getDatabase()
         db.run(`DELETE FROM favorites WHERE city=?`, city, function (err) {
@@ -106,26 +106,3 @@ function deleteC(city) {
     })
 
 }
-
-
-
-
-// db.serialize(() => {
-//     db.get(`SELECT City as city
-//              FROM favorites`, (err, rows) => {
-//         if (err) {
-//             console.error(err.message);
-//         }
-//         console.log(rows);
-//     });
-// });
-
-
-
-// close the database connection
-// db.close((err) => {
-//     if (err) {
-//         return console.error(err.message);
-//     }
-//     console.log('Close the database connection.');
-// });
