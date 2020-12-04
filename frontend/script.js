@@ -252,4 +252,26 @@ document.getElementById("headerbutton").addEventListener("click", event => {
     fullUpdate()
 })
 
-fullUpdate()
+
+if (typeof exports !== 'undefined') {
+    module.exports = {
+        createFromTemplate,
+        detachCity,
+        removeCity,
+        refreshFavoriteCity,
+        addFavoriteCity,
+        appendCity,
+        loadCity,
+        loadLatLong,
+        load,
+        addCityToDB,
+        loadAllCitiesFromDB,
+        loadCitiesFromArray,
+        deleteCityFromDB,
+        getLocationResponse,
+        fillMainLocation,
+        fillUl,
+        fullUpdate,
+        cleanFavorites
+    };
+}

@@ -1,5 +1,5 @@
-const weather = require('./backend/weather');
-const favorites = require('./backend/favorites');
+const weather = require('./weather');
+const favorites = require('./favorites');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -17,7 +17,7 @@ weatherRouter.get('/city', function (req, res) {
 const favoritesRouter = express.Router();
 
 favoritesRouter.get('', function (req, res) {
-    favorites.getAll().then(result => { res.json(result); console.log(result); }).catch(reject => res.sendStatus(404));
+    favorites.getAll().then(result => { res.json(result); console.log(result); }).catch(reject => res.sendStatus(500));
 })
     .post('', function (req, res) {
         const city = req.query.city;
@@ -37,10 +37,10 @@ favoritesRouter.get('', function (req, res) {
 
     }).delete('', function (req, res) {
         const city = req.query.city;
-        favorites.deleteCity(city).then(result => res.sendStatus(200)).catch(reject => res.sendStatus(404));
+        favorites.deleteCity(city).then(result => res.sendStatus(200)).catch(reject => res.sendStatus(500));
     });
 
 app.use('/weather', weatherRouter);
 app.use('/favorites', favoritesRouter);
-app.use(express.static(path.join(__dirname + '/frontend')));
-app.listen(3000);
+app.use(express.static(path.join(__dirname + '/../frontend')));
+module.exports = app

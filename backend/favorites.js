@@ -1,4 +1,4 @@
-const sqlite3 = require('sqlite3').verbose();
+const getDatabase = require('./db')
 module.exports = {
     getAll() {
         return getAllCity();
@@ -11,59 +11,59 @@ module.exports = {
     }
 };
 
-function getDatabase() {
-    let db = new sqlite3.Database('favorites.db', (err) => {
-        if (err) {
-            return console.error(err);
-        }
-
-        console.log('Connected to SQlite database.');
-    });
-    db.run('CREATE TABLE IF NOT EXISTS favorites(city text UNIQUE)');
-    return db;
-}
 
 function getCity(city) {
     return new Promise((resolve, reject) => {
         let db = getDatabase();
-        db.get(`SELECT City as city
+        db.serialize(() => {
+            db.all(`SELECT City as city
         FROM favorites WHERE city = ?`, [city], (err, row) => {
-            if (err) {
-                reject(err);
-                db.close();
-                console.error(err.message);
+                if (err) {
+                    // db.close();
+                    // console.warn(err.message);
+                    reject(err);
+                    return
+                }
+                // db.close();
+                resolve(row);
+                console.log(row);
                 return
-            }
-            resolve(row);
-            db.close();
-            console.log(row);
-        });
+            });
+            db.close()
+        })
     })
 }
 
 function addCity(city) {
     return new Promise(async (resolve, reject) => {
         let db = getDatabase();
-        getCity(city).then(row => {
-            if (row != null) {
+        await getCity(city).then(row => {
+            if (typeof row === 'undefined' || row.length == 0) {
+                db.serialize(() => {
+                    db.run(`INSERT INTO favorites(city) VALUES(?)`, [city], function (err) {
+                        if (err) {
+                            err.status = 500
+                            // db.close();
+                            console.warn(err);
+                            reject(err);
+                            return;
+                        }
+                        // db.close();
+                        console.log("Added " + city);
+                        resolve(city);
+                        return;
+                    });
+                    db.close()
+                })
+            } else {
                 console.log("Rejecting with 208")
                 reject({ message: "Already added", status: 208 })
-            } else {
-                db.run(`INSERT INTO favorites(city) VALUES(?)`, [city], function (err) {
-                    if (err) {
-                        err.status = 500
-                        reject(err);
-                        db.close();
-                        console.error(err);
-                        return;
-                    }
-                    resolve(city);
-                    db.close();
-                    console.log("Added " + city);
-                });
+                db.close()
             }
+        }).catch(() => {
+            reject({ message: "getCityError", status: 500 })
+            db.close()
         })
-
     })
 }
 
@@ -74,35 +74,40 @@ function getAllCity() {
             db.all(`SELECT City as city
                  FROM favorites`, (err, rows) => {
                 if (err) {
+                    // db.close();
+                    // console.warn(err.message);
                     reject(err);
-                    db.close();
-                    console.error(err.message);
                     return;
                 }
 
+                // db.close();
                 resolve(rows);
-                db.close();
-                console.log(rows);
+                return
             });
+            db.close()
         });
+
     })
 }
 
 function deleteCity(city) {
     return new Promise((resolve, reject) => {
         let db = getDatabase()
-        db.run(`DELETE FROM favorites WHERE city=?`, city, function (err) {
-            if (err) {
-                reject(err);
-                db.close;
-                console.error(err);
-                return;
-            }
-            resolve();
-            db.close;
-            console.log(`Row(s) deleted ${this.changes}`);
-        });
-
+        db.serialize(() => {
+            db.run(`DELETE FROM favorites WHERE city=?`, city, function (err) {
+                if (err) {
+                    // db.close();
+                    // console.warn(err);
+                    reject(err);
+                    return;
+                }
+                // db.close();
+                console.log(`Row(s) deleted ${this.changes}`);
+                resolve();
+                return
+            });
+            db.close()
+        })
     })
 
 }
