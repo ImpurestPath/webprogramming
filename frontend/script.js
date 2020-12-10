@@ -1,5 +1,5 @@
 
-const mainDoc = document.currentScript.ownerDocument;
+let mainDoc;
 let cities = [];
 
 
@@ -11,7 +11,7 @@ function createFromTemplate(cityName, cityResponse) {
         imgEl = template.querySelector("img"),
         buttonEl = template.querySelector("button"),
         ulEl = template.querySelector("ul")
-    console.log(ulEl);
+    // console.log(ulEl);
 
     mainLiEl.id = cityName
     if (cityResponse) {
@@ -57,11 +57,11 @@ function refreshFavoriteCity(cityName, isOld = true) {
         loadCity(cityName).then(response => {
             if (response.ok) {
                 response.json().then(apiResponse => {
-                    console.log(apiResponse);
+                    // console.log(apiResponse);
                     document.getElementsByClassName("favorites")[0].replaceChild(createFromTemplate(apiResponse.location.name, apiResponse), cityEl);
                     resolve(apiResponse.location.name);
                 }).catch((err) => {
-                    console.log(err);
+                    console.error(err);
                     alert("Error at getting json");
                     reject();
                 })
@@ -84,7 +84,7 @@ function refreshFavoriteCity(cityName, isOld = true) {
 
 function addFavoriteCity(cityName) {
     addCityToDB(cityName).then(async response => {
-        console.log("Adding city status: " + response.status)
+        // console.log("Adding city status: " + response.status)
         switch (response.status) {
             case 200:
                 appendCity((await response.json()).name)
@@ -130,7 +130,7 @@ function addCityToDB(city){
 function loadAllCitiesFromDB(){
     cities = []
     fetch("/favorites").then( async response =>  {
-        console.log(response.status)
+        // console.log(response.status)
         responseCities = await response.json()
         console.log(responseCities);
         cities = responseCities;
@@ -173,7 +173,7 @@ function getLocationResponse() {
 }
 
 function fillMainLocation(cityResponse) {
-    console.log(cityResponse);
+    // console.log(cityResponse);
     const mainDivEl = document.getElementById('hereWeather'),
         nameEl = mainDivEl.querySelector("h2"),
         imgEl = mainDivEl.querySelector("img"),
@@ -200,7 +200,7 @@ function fillUl(ulEl, wind, cloud, press, hum, coords) {
         pressEl = liEls[2],
         humEl = liEls[3],
         coordsEl = liEls[4]
-    console.log(liEls);
+    // console.log(liEls);
     windEl.textContent = wind
     cloudEl.textContent = cloud
     pressEl.textContent = press
@@ -213,12 +213,12 @@ function fullUpdate() {
     document.getElementById("hereWeather").classList.add("loading")
     getLocationResponse().then(response => {
         if (response.ok) {
-            console.log("Got main city")
+            // console.log("Got main city")
             response.json().then(apiResponse => {
                 fillMainLocation(apiResponse)
                 document.getElementById("hereWeather").classList.remove("loading")
             }).catch((err) => {
-                console.log(err);
+                console.error(err);
                 alert("Error at getting json")
             })
         }
@@ -239,18 +239,24 @@ function cleanFavorites(){
     document.getElementsByClassName("favorites")[0].textContent = ''
 }
 
-document.getElementById("addFavoriteCityForm").addEventListener("submit", event => {
-    if (event.target[0].value || 0 != event.target[0].value.length) {
-        addFavoriteCity(event.target[0].value)
-        console.log(event.target[0].value);
-        console.log(event);
-    }
-    event.target.reset();
-    event.preventDefault();
-})
-document.getElementById("headerbutton").addEventListener("click", event => {
+
+function init() {
+    mainDoc = document.currentScript.ownerDocument
+    document.getElementById("addFavoriteCityForm").addEventListener("submit", event => {
+        if (event.target[0].value || 0 != event.target[0].value.length) {
+            addFavoriteCity(event.target[0].value)
+            // console.log(event.target[0].value);
+            // console.log(event);
+        }
+        event.target.reset();
+        event.preventDefault();
+    })
+    document.getElementById("headerbutton").addEventListener("click", event => {
+        fullUpdate()
+    })
     fullUpdate()
-})
+}
+
 
 
 if (typeof exports !== 'undefined') {
@@ -272,6 +278,7 @@ if (typeof exports !== 'undefined') {
         fillMainLocation,
         fillUl,
         fullUpdate,
-        cleanFavorites
+        cleanFavorites,
+        init
     };
 }
