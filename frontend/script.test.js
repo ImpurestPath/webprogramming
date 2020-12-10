@@ -12,20 +12,34 @@ beforeEach(() => {
   Object.defineProperty(dom.window.document, 'currentScript', {
     value: document.createElement('script'),
   });
+
+  // Object.defineProperty(dom.window.document.currentScript.ownerDocument, 'currentScript', {
+  //   value: dom.window.document,
+  // });
   dom.window.document.currentScript.ownerDocument = dom.window.document;
   mockFetch = jest.fn()
   mockFetch.mockImplementation((query) => {
     if (query.includes("favorite")) {
+      if (query.includes("city")) {
+        return Promise.resolve({
+          status: 200,
+          json: () => Promise.resolve({
+            name: "Moscow"
+          })
+        })
+      }
+      else {
       return Promise.resolve({
+        ok: true,
         status: 200,
         json: () => Promise.resolve([
-          { city: 'Yakutsk' },
-          { city: 'Moscow' },
-          { city: 'Helsinki' }
+          { city: 'Moscow' }
         ])
       })
+    }
     } else {
       return Promise.resolve({
+        ok: true,
         status: 200,
         json: () => Promise.resolve({
           "location": {
@@ -73,18 +87,22 @@ beforeEach(() => {
   })
   script.__set__('fetch', mockFetch)
   script.__set__('document', dom.window.document)
+  mockAlert = jest.fn()
+  script.__set__('alert', mockAlert)
   script.init()
+  script.__set__('mainDoc', dom.window.document)
 });
 
 afterEach(() => {
   jest.resetModules();
+  jest.resetAllMocks()
 });
 
 describe('geolocation', () => {
   it('should get location', () => {
     mockGetLocationResponse = jest.fn(() => Promise.resolve(script.loadCity("123")))
     script.__with__('getLocationResponse', mockGetLocationResponse)(() => {
-      script.init()
+      script.fullUpdate()
       expect(mockGetLocationResponse).toHaveBeenCalledTimes(1)
     })
   });
@@ -122,7 +140,14 @@ describe('geolocation', () => {
 });
 
 describe('weather loading', () => {
-
+  it('should fetch city weather', () => {
+    script.loadCity("1");
+    expect(mockFetch).toHaveBeenCalled()
+  });
+  it('should fetch latlong weather', () => {
+    script.loadLatLong("1", "2");
+    expect(mockFetch).toHaveBeenCalled()
+  });
 });
 
 describe('favorites loading', () => {
@@ -140,92 +165,64 @@ describe('favorites loading', () => {
   });
 
   it('should delete favorites on button click', () => {
-
+    mockDeleteCityFromDb = jest.fn()
+    mockDetachCity = jest.fn()
+    script.__with__('deleteCityFromDB', mockDeleteCityFromDb)(() => {
+      script.__with__('detachCity', mockDetachCity)(() => {
+        city = script.__get__('cities')[0].city
+        console.log(script.__get__('cities'));
+        script.__get__('document').getElementById(city).querySelector("button").click()
+        expect(mockDetachCity).toHaveBeenCalledTimes(1)
+        expect(mockDeleteCityFromDb).toHaveBeenCalledTimes(1)
+      })
+    })
   });
 
   it('should add favorites on form submit', () => {
-
+    mockAddFavoriteCity = jest.fn()
+    script.__with__('handleAddCity', mockAddFavoriteCity)(() => {
+      script.init()
+      script.__get__('document').getElementById("addFavoriteCity").click()
+      expect(mockAddFavoriteCity).toHaveBeenCalled()
+    })
   });
 })
 
-describe('favorites on page', () => {
+// describe('favorites on page', () => {
 
-  it('should add element if city not already added', () => {
+//   beforeEach(() => {
+//     script.__set__('fetch', mockFetch)
+//     script.fullUpdate()
+//   })
 
-  });
+//   it('should show city name', () => {
+//     expect(script.__get__('document').getElementById("Moscow").querySelector("h3").textContent).toEqual("Moscow")
+//   });
+//   it('should show temperature', () => {
+//     expect(script.__get__('document').getElementById("Moscow").querySelector("span").textContent).toEqual("-8")
+//   });
+//   it('should show image', () => {
 
-  it('should show alert if city already added', () => {
+//   });
+//   it('should show wind', () => {
 
-  });
+//   });
+//   it('should show cloud', () => {
 
-  it('should show alert if city not found', () => {
+//   });
+//   it('should show pressure', () => {
 
-  });
+//   });
 
-  it('should delete element on button click', () => {
+//   it('should show humidity', () => {
 
-  });
-  it('should refresh element', () => {
+//   });
 
-  });
+//   it('should show coordinates', () => {
 
+//   });
+// });
 
-  it('should show city name', () => {
-
-  });
-  it('should show temperature', () => {
-
-  });
-  it('should show image', () => {
-
-  });
-  it('should show wind', () => {
-
-  });
-  it('should show cloud', () => {
-
-  });
-  it('should show pressure', () => {
-
-  });
-
-  it('should show humidity', () => {
-
-  });
-
-  it('should show coordinates', () => {
-
-  });
-});
-
-describe('main city', () => {
-  it('should show city name', () => {
-
-  });
-  it('should show temperature', () => {
-
-  });
-  it('should show image', () => {
-
-  });
-  it('should show wind', () => {
-
-  });
-  it('should show cloud', () => {
-
-  });
-  it('should show pressure', () => {
-
-  });
-
-  it('should show humidity', () => {
-
-  });
-
-  it('should show coordinates', () => {
-
-  });
-})
 
 describe('Page', () => {
   it('should show title', () => {
@@ -240,6 +237,6 @@ describe('Page', () => {
       script.__get__('document').getElementById("headerbutton").click()
       expect(mockFullUpdate).toBeCalledTimes(1)
     })
-    
+
   });
 });

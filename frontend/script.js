@@ -4,7 +4,7 @@ let cities = [];
 
 
 function createFromTemplate(cityName, cityResponse) {
-    const template = document.importNode(mainDoc.querySelector("#cityTemplate").content, true)
+    const template = document.importNode(mainDoc.getElementById("cityTemplate").content, true)
     const mainLiEl = template.querySelector("li"),
         nameEl = template.querySelector("h3"),
         tempEl = template.querySelector("span"),
@@ -63,19 +63,19 @@ function refreshFavoriteCity(cityName, isOld = true) {
                 }).catch((err) => {
                     console.error(err);
                     alert("Error at getting json");
-                    reject();
+                    // reject();
                 })
 
             }
             else {
                 alert("Cannot find city")
                 cityEl.classList.remove("loading")
-                reject();
+                // reject();
             }
         }).catch(reason => {
             alert("Problems with connection")
             cityEl.classList.remove("loading")
-            reject();
+            // reject();
         })
     })
 
@@ -240,16 +240,20 @@ function cleanFavorites(){
 }
 
 
+function handleAddCity(event) {
+    if (event.target[0].value || 0 != event.target[0].value.length) {
+        addFavoriteCity(event.target[0].value)
+        // console.log(event.target[0].value);
+        // console.log(event);
+    }
+    event.target.reset();
+    event.preventDefault();
+}
+
 function init() {
     mainDoc = document.currentScript.ownerDocument
     document.getElementById("addFavoriteCityForm").addEventListener("submit", event => {
-        if (event.target[0].value || 0 != event.target[0].value.length) {
-            addFavoriteCity(event.target[0].value)
-            // console.log(event.target[0].value);
-            // console.log(event);
-        }
-        event.target.reset();
-        event.preventDefault();
+        handleAddCity(event)
     })
     document.getElementById("headerbutton").addEventListener("click", event => {
         fullUpdate()
