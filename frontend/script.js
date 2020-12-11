@@ -209,8 +209,7 @@ function fillUl(ulEl, wind, cloud, press, hum, coords) {
 }
 
 
-function fullUpdate() {
-    document.getElementById("hereWeather").classList.add("loading")
+function getMainCity(){
     getLocationResponse().then(response => {
         if (response.ok) {
             // console.log("Got main city")
@@ -230,6 +229,11 @@ function fullUpdate() {
         alert("Problems with connection")
         document.getElementById("hereWeather").classList.remove("loading")
     })
+}
+
+function fullUpdate() {
+    document.getElementById("hereWeather").classList.add("loading")
+    getMainCity()
     cleanFavorites()
     // loadCitiesFromStorage()
     loadAllCitiesFromDB()
@@ -283,6 +287,7 @@ if (typeof exports !== 'undefined') {
         fillUl,
         fullUpdate,
         cleanFavorites,
-        init
+        init,
+        getMainCity
     };
 }

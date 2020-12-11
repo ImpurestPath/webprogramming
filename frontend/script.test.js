@@ -89,6 +89,19 @@ beforeEach(() => {
   script.__set__('document', dom.window.document)
   mockAlert = jest.fn()
   script.__set__('alert', mockAlert)
+  mockGeolocationGetCurrentPosition = {
+    coords: {
+      latitude: 1,
+      longitude: 1,
+    }
+  }
+  mockGeolocation = {
+    getCurrentPosition: (callbackGood, callbackBad) => callbackGood(mockGeolocationGetCurrentPosition),
+  }
+  mockNavigator = {
+    geolocation: mockGeolocation
+  }
+  script.__set__('navigator',mockNavigator)
   script.init()
   script.__set__('mainDoc', dom.window.document)
 });
@@ -147,6 +160,21 @@ describe('weather loading', () => {
   it('should fetch latlong weather', () => {
     script.loadLatLong("1", "2");
     expect(mockFetch).toHaveBeenCalled()
+  });
+  it('should alert when cannot load weather', async () => {
+    mockFetch = jest.fn()
+    mockFetch.mockImplementation((query) => {
+        return Promise.resolve({
+          ok: false,
+          status: 404,
+          json: () => Promise.reject()
+        }) 
+    })
+    script.__with__('load',mockFetch)(async()=>{
+      script.__set__('alert',mockAlert)
+      await script.getMainCity()
+      expect(mockAlert).toHaveBeenCalledWith("Cannot find city")
+    })
   });
 });
 
