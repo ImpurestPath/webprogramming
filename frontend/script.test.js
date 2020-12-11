@@ -214,42 +214,70 @@ describe('favorites loading', () => {
       expect(mockAddFavoriteCity).toHaveBeenCalled()
     })
   });
+  it('should slert when cannot load cities', () => {
+    mockFetch = jest.fn()
+    mockFetch.mockImplementation((query) => {
+        return Promise.resolve({
+          ok: false,
+          status: 404,
+          json: () => Promise.reject()
+        }) 
+    })
+    script.__with__('load',mockFetch)(async()=>{
+      script.__set__('alert',mockAlert)
+      await script.loadAllCitiesFromDB()
+      expect(mockAlert).toHaveBeenCalledWith("Cannot load cities from database")
+    })
+  });
+
+  it('should alert when cannot find city on adding', () => {
+    mockFetch = jest.fn()
+    mockFetch.mockImplementation((query) => {
+        return Promise.resolve({
+          ok: false,
+          status: 404,
+          json: () => Promise.reject()
+        }) 
+    })
+    script.__with__('load',mockFetch)(async()=>{
+      script.__set__('alert',mockAlert)
+      await script.addFavoriteCity()
+      expect(mockAlert).toHaveBeenCalledWith("Cannot find city")
+    })
+  });
+  it('should alert when city already added', () => {
+    mockFetch = jest.fn()
+    mockFetch.mockImplementation((query) => {
+        return Promise.resolve({
+          ok: true,
+          status: 208,
+          json: () => Promise.reject()
+        }) 
+    })
+    script.__with__('load',mockFetch)(async()=>{
+      script.__set__('alert',mockAlert)
+      await script.addFavoriteCity()
+      expect(mockAlert).toHaveBeenCalledWith("Already added")
+    })
+  });
+  it('should alert when problems with connection', () => {
+    mockFetch = jest.fn()
+    mockFetch.mockImplementation((query) => {
+        return Promise.resolve({
+          ok: true,
+          status: 500,
+          json: () => Promise.reject()
+        }) 
+    })
+    script.__with__('load',mockFetch)(async()=>{
+      script.__set__('alert',mockAlert)
+      await script.addFavoriteCity()
+      expect(mockAlert).toHaveBeenCalledWith("Error at adding to db")
+    })
+  });
 })
 
-// describe('favorites on page', () => {
 
-//   beforeEach(() => {
-//     script.__set__('fetch', mockFetch)
-//     script.fullUpdate()
-//   })
-
-//   it('should show city name', () => {
-//     expect(script.__get__('document').getElementById("Moscow").querySelector("h3").textContent).toEqual("Moscow")
-//   });
-//   it('should show temperature', () => {
-//     expect(script.__get__('document').getElementById("Moscow").querySelector("span").textContent).toEqual("-8")
-//   });
-//   it('should show image', () => {
-
-//   });
-//   it('should show wind', () => {
-
-//   });
-//   it('should show cloud', () => {
-
-//   });
-//   it('should show pressure', () => {
-
-//   });
-
-//   it('should show humidity', () => {
-
-//   });
-
-//   it('should show coordinates', () => {
-
-//   });
-// });
 
 
 describe('Page', () => {
